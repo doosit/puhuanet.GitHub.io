@@ -122,7 +122,7 @@ inc_after_scripts :
 inc_before_styles : 
 inc_after_styles : 
 inc_before_header : 
-inc_after_header : my_sidebar_file.html
+inc_after_header : "my_sidebar_file.html"
 inc_before_tail : 
 inc_after_tail : 
 inc_before_tools : 
