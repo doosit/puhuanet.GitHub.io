@@ -12,12 +12,7 @@ https://docs.graylog.org/en/3.1/pages/installation/os/centos.html
 `$ sudo yum install epel-releasesudo | yum install pwgen`
 
 ## 安装MongoDB社区版
-https://docs.mongodb.com/master/tutorial/install-mongodb-on-red-hat/   
 
-1. 配置程序包yum源
-
-
-2. 安装MongoDB软件包
-
+参考:[在centos上安装mongodb社区版](https://www.puhua.net/blog/posts/2019/12/14/%E5%9C%A8CentOS%E4%B8%8A%E5%AE%89%E8%A3%85MongoDB%E7%A4%BE%E5%8C%BA%E7%89%88.html)
 
 
