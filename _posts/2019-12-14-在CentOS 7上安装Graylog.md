@@ -21,15 +21,18 @@ Graylog 3不适用于MongoDB 4.2
 
 参考:[在centos上安装mongodb社区版](https://www.puhua.net/blog/posts/2019/12/14/%E5%9C%A8CentOS%E4%B8%8A%E5%AE%89%E8%A3%85MongoDB%E7%A4%BE%E5%8C%BA%E7%89%88.html)
 
-`
-[mongodb-org-4.0]  
-name=MongoDB Repository  
-baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.0/x86_64/  
-gpgcheck=1  
-enabled=1  
-gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc   
-`
+> [mongodb-org-4.0]  
+> name=MongoDB Repository  
+> baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.0/x86_64/  
+> gpgcheck=1  
+> enabled=1  
+> gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc   
 
+`sudo yum install mongodb-org`
+
+`sudo systemctl daemon-reload`
+`sudo systemctl enable mongod.service`
+`sudo systemctl start mongod.service`
 
 
 ### 安装Elasticsearch
