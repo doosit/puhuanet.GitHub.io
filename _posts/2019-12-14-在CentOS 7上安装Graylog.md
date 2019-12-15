@@ -3,9 +3,13 @@ https://docs.graylog.org/en/3.1/pages/installation/os/centos.html
 # 准备安装环境
 
 **在安装Graylog服务之前，请确保安装和配置以下软件：**
-* Java（> = 8）
-* MongoDB（> = 2.4）
-* Elasticsearch（> = 2.x）
+* Java ( >= 8 )
+* Elasticsearch (5.x or 6.x)
+* MongoDB (3.6 or 4.0)
+
+**警告**  
+Graylog 3不适用于Elasticsearch 7.x  
+Graylog 3不适用于MongoDB 4.2  
 
 ### 安装java jdk
 `$ sudo yum install java-1.8.0-openjdk-headless.x86_64`
@@ -16,6 +20,17 @@ https://docs.graylog.org/en/3.1/pages/installation/os/centos.html
 ### 安装MongoDB社区版
 
 参考:[在centos上安装mongodb社区版](https://www.puhua.net/blog/posts/2019/12/14/%E5%9C%A8CentOS%E4%B8%8A%E5%AE%89%E8%A3%85MongoDB%E7%A4%BE%E5%8C%BA%E7%89%88.html)
+
+`
+[mongodb-org-4.0]  
+name=MongoDB Repository  
+baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.0/x86_64/  
+gpgcheck=1  
+enabled=1  
+gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc   
+`
+
+
 
 ### 安装Elasticsearch
 
