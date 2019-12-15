@@ -77,8 +77,25 @@ $ sudo systemctl restart elasticsearch.service
 
 # 安装Graylog
 
+安装Graylog存储库配置和Graylog
+```
+$ sudo rpm -Uvh https://packages.graylog2.org/repo/packages/graylog-3.1-repository_latest.rpm
+$ sudo yum install graylog-server
+```
 
+安装插件
+```
+sudo yum install graylog-server graylog-enterprise-plugins graylog-integrations-plugins graylog-enterprise-integrations-plugins
+```
 
+按照/etc/graylog/server/server.conf中的说明进行操作，并添加password_secret和root_password_sha2
 
+创建您的root_password_sha2
+`echo -n "Enter Password: " && head -1 </dev/stdin | tr -d '\n' | sha256sum | cut -d" " -f1`
 
-
+设置启动
+```
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable graylog-server.service
+$ sudo systemctl start graylog-server.service
+```
