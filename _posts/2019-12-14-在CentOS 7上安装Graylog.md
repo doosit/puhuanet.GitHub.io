@@ -44,6 +44,7 @@ sudo systemctl start mongod.service
  
 
 ## 安装Elasticsearch
+参考：[Elasticsearch安装指南](https://www.puhua.net/blog/posts/2019/12/15/Elasticsearch%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97.html)
 
 安装Elastic GPG key  
 `rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch`  
@@ -74,6 +75,10 @@ $ sudo systemctl enable elasticsearch.service
 $ sudo systemctl restart elasticsearch.service
 ```
 
-
-
 # 安装Graylog
+
+
+
+
+
+
