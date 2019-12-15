@@ -23,7 +23,7 @@ service: "github"
 # (string) Specify branch rendered by gitpages allowing wiki tool buttons to work
 git_branch: "master"
 # (string) Url of logo image, it can be full, absolute or relative.
-logo_url: https://avatars2.githubusercontent.com/u/10136928?s=460&v=4
+logo_url: https://repository-images.githubusercontent.com/227959683/504ca600-1f1b-11ea-8c0c-1a8de83e38f9
 # (string) The UA-XXXXX-Y code from google analytic to enable GA on your wiki
 google_analytics: 
 # (string) folder where wiki pages are stored, it's needed for tool buttons
