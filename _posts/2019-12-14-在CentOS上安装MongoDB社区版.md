@@ -1,3 +1,4 @@
+在CentOS上安装MongoDB社区版   
 https://docs.mongodb.com/master/tutorial/install-mongodb-on-red-hat/
 
 # 1. 配置程序包yum源
