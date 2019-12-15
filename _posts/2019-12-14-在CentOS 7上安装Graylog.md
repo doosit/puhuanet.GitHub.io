@@ -90,7 +90,7 @@ sudo yum install graylog-server graylog-enterprise-plugins graylog-integrations-
 
 按照/etc/graylog/server/server.conf中的说明进行操作，并添加password_secret和root_password_sha2
 
-创建您的root_password_sha2
+创建您的root_password_sha2   
 `echo -n "Enter Password: " && head -1 </dev/stdin | tr -d '\n' | sha256sum | cut -d" " -f1`
 
 设置启动
