@@ -18,12 +18,12 @@ https://docs.mongodb.com/master/tutorial/install-mongodb-on-red-hat/
 
 # 3. 运行MongoDB社区版
 
-**默认目录**
+**默认目录**  
 默认情况下，MongoDB使用mongod用户帐户运行，并使用以下默认目录：  
 /var/lib/mongo (the data directory)  
 /var/log/mongodb (the log directory)  
 
-**配置SELinux**
+**配置SELinux**  
 
 ## 启动MongoDB  
 `sudo service mongod start`  
@@ -41,6 +41,12 @@ https://docs.mongodb.com/master/tutorial/install-mongodb-on-red-hat/
 
 ## 重新启动MongoDB
 `sudo service mongod restart`
+
+## 开始使用MongoDB
+在与mongod相同的主机上启动mongo shell。可以在没有任何命令行选项的情况下运行mongo shell，使用默认端口27017连接到在本地主机上运行的mongod：  
+`mongo`
+
+
 
 
 
