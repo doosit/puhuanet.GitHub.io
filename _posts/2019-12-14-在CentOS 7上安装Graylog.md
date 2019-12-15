@@ -1,3 +1,4 @@
+在CentOS 7上安装Graylog
 https://docs.graylog.org/en/3.1/pages/installation/os/centos.html   
 
 # 准备安装环境
