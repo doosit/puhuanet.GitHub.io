@@ -21,7 +21,34 @@ perl /usr/share/ossim/scripts/create_sidmap.pl /etc/suricata/rules
 #service ossim-agent restart
 ```
 
-# 规则之classtype    
+## 规则头部    
+1. 规则行为：行为声明，用于通知IDS引擎在触发警报时该怎么做    
+    
+2. 协议：通知IDS引擎该规则适用于何种协议    
+
+3. 源／目标 主机    
+
+4. 源／目标 端口    
+
+5. 流量方向    
+
+
+## 规则选项
+
+1. 消息（msg）   
+
+2. 特征标识符（sid）   
+
+3. 修订（rev）   
+    当创建一条新规则时，制定 rev:1; ，以表明该规则为第一版本   
+    当规则被改变时，无需创建新规则，可保持sid不变，使rev递增   
+
+4. 引用（reference）
+
+5. 优先级（priority）    
+   此选项可以任意整数设置，可使用0-10之间的数指定优先级，0最高，10最低     
+
+6. 类别（classtype）：用于根据规则所检测的活动类型为规则分类    
 
 ```
 # classification.config 
@@ -66,7 +93,41 @@ config classification: policy-violation,Potential Corporate Privacy Violation,1 
 config classification: default-login-attempt,Attempt to login by a default username and password,2 #尝试使用默认用户名和密码登录
 ```
 
-## 一些自定义规则    
+7. 检查内容    
+7.1 检查内容（content）: 检查数据包内容中是否包含某个字符串    
+```
+   如：content:"evilliveshere";    
+   指定多个匹配项：content:"evilliveshere";  content:"here";    
+      a. 使用感叹号！对匹配项的否定：content:!"evilliveshere";   
+      b. 将字符串的十六进制用管道符（|）进行包围：content:"|FF D8|";   
+      c. 字符串与十六进制混合使用：content:"|FF D8|evilliveshere";   
+      d. 匹配内容区分大小写  
+      e. 保留字符（; \ "）须进行转义或十六进制转码   
+```
+
+7.2 检测内容修饰语：通过在匹配内容之后添加一些修饰语，可以精确控制IDS引擎在网络数据中匹配内容的方式。     
+```
+        nocase：匹配内容不区分大小写，如 content:"root";nocase;
+
+        offset：用于表示从数据包载荷的特定位置开始内容匹配，从载荷其实位置算起
+                   注意载荷开始位置从0字节处开始，而不是1字节处
+                   content:"root";offset:5;
+
+        depth：用于限制搜索匹配内容的结束位置。若使用了offset，则开始位置为offset，否则为载荷开始位置
+                  content:"root";offset:5;depth:7;
+
+        distance：用于指定上一次内容匹配的结束位置距离本次内容匹配的开始位置的距离
+
+        within：用于限制本次匹配必须出现在上一次匹配内容结束后的多少个字节之内
+
+        distance和within的同时使用限制了第二次内容匹配的匹配范围，如下
+           content:"evilliveshere";  content:"here"; distance:1;within:7;
+           在匹配字符串“evilliveshere”后的1到7个字节范围内对字符串“here”进行匹配
+
+        http内容修饰语
+```
+
+***
 
 ### [QQPCMgr 腾讯电脑管家](suricata_localrules#5200101)   
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO QQPCMgr"; flow:to_server,established; priority:1; content:"/qqpcmgr/data_update/"; http_uri; content:"QQPCMgr"; http_user_agent; reference:url,puhua.net/suricata_localrules#5200101; classtype:policy-violation; sid:5200101; rev:1;)
