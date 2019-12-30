@@ -1,3 +1,28 @@
+**参考：**
+* [定制AlienVault NIDS规则](https://cybersecurity.att.com/documentation/usm-appliance/ids-configuration/customizing-alienvault-nids-rules.htm)   
+* [Suricata 规则](https://suricata.readthedocs.io/en/latest/rules/index.html)   
+
+# 如何定制NIDS规则
+1. 通过SSH连接并登入OSSIM，将显示设置菜单。选择Jailbreak System    
+
+2. 编辑/etc/suricata/rules/local.rules文件，写入和修改规则，保存退出    
+为确保该规则与现有规则不冲突，应使用5000000到5999999之间的SID    
+
+3. 在/etc/suricata/rule-files.yaml添加对local.rules的引用    
+
+4. 将规则导入数据库(Sensor不需要执行此步骤)    
+```
+perl /usr/share/ossim/scripts/create_sidmap.pl /etc/suricata/rules
+```
+
+5. 重新启动NIDS服务和Agent服务，以使更改生效
+```
+#service suricata restart
+#service ossim-agent restart
+```
+
+# 规则之classtype    
+
 ```
 # classification.config 
 # config classification:shortname,short description,priority
@@ -41,18 +66,7 @@ config classification: policy-violation,Potential Corporate Privacy Violation,1 
 config classification: default-login-attempt,Attempt to login by a default username and password,2 #尝试使用默认用户名和密码登录
 ```
 
-
-```
-###
-#
-# perl /usr/share/ossim/scripts/create_sidmap.pl /etc/suricata/rules
-# service suricata restart
-# service ossim-agent restart
-#
-# SID between 5,000,000 and 5,999,999.
-# e.g. 5<yy><mm><01...99>
-###
-```
+## 一些自定义规则    
 
 ### [QQPCMgr 腾讯电脑管家](suricata_localrules#5200101)   
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO QQPCMgr"; flow:to_server,established; priority:1; content:"/qqpcmgr/data_update/"; http_uri; content:"QQPCMgr"; http_user_agent; reference:url,puhua.net/suricata_localrules#5200101; classtype:policy-violation; sid:5200101; rev:1;)
