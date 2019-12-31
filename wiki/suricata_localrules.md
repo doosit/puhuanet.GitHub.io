@@ -94,6 +94,7 @@ config classification: default-login-attempt,Attempt to login by a default usern
 ```
 
 7. 检查内容    
+
 7.1 检查内容（content）: 检查数据包内容中是否包含某个字符串    
 ```
    如：content:"evilliveshere";    
@@ -129,19 +130,30 @@ config classification: default-login-attempt,Attempt to login by a default usern
 
 ***
 
-### [QQPCMgr 腾讯电脑管家](suricata_localrules#5200101)   
-alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO QQPCMgr"; flow:to_server,established; priority:1; content:"/qqpcmgr/data_update/"; http_uri; content:"QQPCMgr"; http_user_agent; reference:url,puhua.net/suricata_localrules#5200101; classtype:policy-violation; sid:5200101; rev:1;)
+### [5200101 QQPCMgr 腾讯电脑管家](suricata_localrules#5200101)    
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO QQPCMgr"; flow:to_server,established; priority:1; content:"GET"; http_method; content:"/invc/xfspeed/qqpcmgr/"; http_uri;content:"_update/"; http_uri; distance:4; within:14; reference:url,puhua.net/suricata_localrules#5200101; classtype:policy-violation; sid:5200101; rev:1;)
 
-### [WeChat Client 微信客户端](suricata_localrules#5200102)   
-alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF CHAT Wechat Client"; flow:to_server,established; content:"MicroMessenger Client"; http_user_agent; content:"dns.weixin.qq.com"; http_host; reference:url,puhua.net/suricata_localrules#5200102; classtype:policy-violation; sid:5200102; rev:1;)
+### [5200102 WeChat Client 微信客户端](suricata_localrules#5200102)   
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF CHAT Wechat Client"; flow:to_server,established; content:"GET"; http_method; content:"dns.weixin.qq.com"; http_header; content:"MicroMessenger Client"; http_user_agent; reference:url,puhua.net/suricata_localrules#5200102; classtype:policy-violation; sid:5200102; rev:1;)
 
-### [代替 2003492](suricata_localrules#5200103)   
-alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"ET INFO Suspicious Mozilla User-Agent - Likely Fake (Mozilla/4.0)"; flow:to_server,established; priority:1;  content:!".duba.net"; http_header; content:!"/qqpcmgr/data_update/"; http_uri; content:!".baofeng.com"; http_host; content:"User-Agent|3a| Mozilla/4.0|0d 0a|"; fast_pattern; nocase; http_header; content:!"/CallParrotWebClient/"; http_uri; content:!"Host|3a| www|2e|google|2e|com|0d 0a|"; nocase; http_header; content:!"Cookie|3a| PREF|3d|ID|3d|"; nocase; http_raw_header; content:!"Host|3a 20|secure|2e|logmein|2e|com|0d 0a|"; nocase; http_header; content:!"Host|3a 20|weixin.qq.com"; http_header; nocase; content:!"Host|3a| slickdeals.net"; nocase; http_header; content:!"Host|3a| cloudera.com"; nocase; http_header; content:!"Host|3a 20|secure.digitalalchemy.net.au"; http_header; content:!".ksmobile.com|0d 0a|"; http_header; content:!"gstatic|2e|com|0d 0a|"; http_header; content:!"weixin.qq.com|0d 0a|"; http_header; content:!"|2e|cmcm|2e|com|0d 0a|"; http_header; content:!".deckedbuilder.com"; http_header; content:!".mobolize.com"; http_header; reference:url,puhua.net/suricata_localrules#5200103;url,doc.emergingthreats.net/2003492; classtype:trojan-activity; sid:2003492; rev:99;)
+### [5200103 代替2003492](suricata_localrules#5200103)   
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO Suspicious Mozilla User-Agent - Likely Fake (Mozilla/4.0)"; flow:to_server,established; priority:1; content:!".drivergenius.com"; http_header; content:!".duba.net"; http_header; content:!".baofeng.com"; http_header; content:!".baofeng.net"; http_header; content:!"/invc/xfspeed/qqpcmgr/"; http_uri; content:"User-Agent|3a| Mozilla/4.0|0d 0a|"; fast_pattern; nocase; http_header; content:!"/CallParrotWebClient/"; http_uri; content:!"Host|3a| www|2e|google|2e|com|0d 0a|"; nocase; http_header; content:!"Cookie|3a| PREF|3d|ID|3d|"; nocase; http_raw_header; content:!"Host|3a 20|secure|2e|logmein|2e|com|0d 0a|"; nocase; http_header; content:!"Host|3a 20|weixin.qq.com"; http_header; nocase; content:!"Host|3a| slickdeals.net"; nocase; http_header; content:!"Host|3a| cloudera.com"; nocase; http_header; content:!"Host|3a 20|secure.digitalalchemy.net.au"; http_header; content:!".ksmobile.com|0d 0a|"; http_header; content:!"gstatic|2e|com|0d 0a|"; http_header; content:!"weixin.qq.com|0d 0a|"; http_header; content:!"|2e|cmcm|2e|com|0d 0a|"; http_header; content:!".deckedbuilder.com"; http_header; content:!".mobolize.com"; http_header; metadata: former_category INFO; reference:url,puhua.net/suricata_localrules#5200103; reference:url,doc.emergingthreats.net/2003492; classtype:trojan-activity; sid:5200103; rev:1;)
 
-### [Baofeng 暴风影音](suricata_localrules#5200104)   
-alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO Baofeng"; flow:to_server,established; priority:1; content:".baofeng.com"; http_host; content:"/conf/proxyd.xml";http_uri; reference:url,puhua.net/suricata_localrules#5200104; classtype:trojan-activity; sid:5200104; rev:1;)
+### [5200104 Baofeng 暴风影音](suricata_localrules#5200104)   
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO Baofeng"; flow:to_server,established; priority:1; content:"GET"; http_method; content:"midinfo.baofeng.com"; http_header; content:"/conf/proxyd.xml"; http_uri; reference:url,puhua.net/suricata_localrules#5200104; classtype:policy-violation; sid:5200104; rev:1;)
 
-### [Duba 毒霸](suricata_localrules#5200105)   
-alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO Duba"; flow:to_server,established; priority:1; content:".duba.net"; http_header; reference:url,puhua.net/suricata_localrules#5200105; classtype:trojan-activity; sid:5200105; rev:1;)
+### [5200105 Duba 毒霸](suricata_localrules#5200105)   
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO Duba"; flow:to_server,established; priority:1; content:"GET"; http_method; content:"config.i.duba.net"; http_header; content:"/health/healthcloud.ini"; http_uri; reference:url,puhua.net/suricata_localrules#5200105; classtype:policy-violation; sid:5200105; rev:1;)
 
+### [5200106 QQPCMgr 腾讯电脑管家](suricata_localrules#5200106)   
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO QQPCMgr(2)"; flow:to_server,established; priority:1; content:"GET"; http_method; content:".myapp.com"; http_header; content:"/qqpcmgr/other/"; http_uri; reference:url,puhua.net/suricata_localrules#5200106; classtype:policy-violation; sid:5200106; rev:1;)
+
+### [5200107 GDSBZS 办税助手](suricata_localrules#5200107)   
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO GDBSZS"; flow:to_server,established; priority:1; content:"GET"; http_method; content:"gdbszs.jchl.com"; http_host; content:"/gdbszs/"; http_uri; reference:url,puhua.net/suricata_localrules#5200107; classtype:policy-violation; sid:5200107; rev:1;)
+
+### [5200108 SERVYOU 税友软件](suricata_localrules#5200108)   
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO SERVYOU"; flow:to_server,established; priority:1; content:"Servyoubgup.exe"; http_user_agent; content:"HEAD"; http_method; content:".servyou.com.cn"; http_host; reference:url,puhua.net/suricata_localrules#5200108; classtype:policy-violation; sid:5200108; rev:1;)
+
+### [5200109 DriverGenius 驱动精灵](suricata_localrules#5200109)   
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO DriverGenius"; flow:to_server,established; priority:1; content:"GET"; http_method; content:"software.drivergenius.com"; http_host; reference:url,puhua.net/suricata_localrules#5200109; classtype:policy-violation; sid:5200109; rev:1;)
 
