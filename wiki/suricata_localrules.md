@@ -1,8 +1,10 @@
 **参考：**
+
 * [定制AlienVault NIDS规则](https://cybersecurity.att.com/documentation/usm-appliance/ids-configuration/customizing-alienvault-nids-rules.htm)   
 * [Suricata 规则](https://suricata.readthedocs.io/en/latest/rules/index.html)   
 
 # 如何定制NIDS规则
+
 1. 通过SSH连接并登入OSSIM，将显示设置菜单。选择Jailbreak System    
 
 2. 编辑/etc/suricata/rules/local.rules文件，写入和修改规则，保存退出    
@@ -11,19 +13,22 @@
 3. 在/etc/suricata/rule-files.yaml添加对local.rules的引用    
 
 4. 将规则导入数据库(Sensor不需要执行此步骤)    
+
 ```
 perl /usr/share/ossim/scripts/create_sidmap.pl /etc/suricata/rules
 ```
 
 5. 重新启动NIDS服务和Agent服务，以使更改生效
+
 ```
 #service suricata restart
 #service ossim-agent restart
 ```
 
-## 规则头部    
+## 规则头部
+
 1. 规则行为：行为声明，用于通知IDS引擎在触发警报时该怎么做    
-    
+
 2. 协议：通知IDS引擎该规则适用于何种协议    
 
 3. 源／目标 主机    
@@ -31,7 +36,6 @@ perl /usr/share/ossim/scripts/create_sidmap.pl /etc/suricata/rules
 4. 源／目标 端口    
 
 5. 流量方向    
-
 
 ## 规则选项
 
@@ -51,7 +55,7 @@ perl /usr/share/ossim/scripts/create_sidmap.pl /etc/suricata/rules
 6. 类别（classtype）：用于根据规则所检测的活动类型为规则分类    
 
 ```
-# classification.config 
+# classification.config
 # config classification:shortname,short description,priority
 
 config classification: not-suspicious,Not Suspicious Traffic,3 #无可疑，无可疑流量
@@ -93,9 +97,10 @@ config classification: policy-violation,Potential Corporate Privacy Violation,1 
 config classification: default-login-attempt,Attempt to login by a default username and password,2 #尝试使用默认用户名和密码登录
 ```
 
-7. 检查内容    
+7. 检查内容
 
 7.1 检查内容（content）: 检查数据包内容中是否包含某个字符串    
+
 ```
    如：content:"evilliveshere";    
    指定多个匹配项：content:"evilliveshere";  content:"here";    
@@ -107,6 +112,7 @@ config classification: default-login-attempt,Attempt to login by a default usern
 ```
 
 7.2 检测内容修饰语：通过在匹配内容之后添加一些修饰语，可以精确控制IDS引擎在网络数据中匹配内容的方式。     
+
 ```
         nocase：匹配内容不区分大小写，如 content:"root";nocase;
 
@@ -139,21 +145,26 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF CHAT Wechat Client"; flo
 ### [5200103 代替2003492](suricata_localrules#5200103)   
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO Suspicious Mozilla User-Agent - Likely Fake (Mozilla/4.0)"; flow:to_server,established; priority:1; content:!".drivergenius.com"; http_header; content:!".duba.net"; http_header; content:!".baofeng.com"; http_header; content:!".baofeng.net"; http_header; content:!"/invc/xfspeed/qqpcmgr/"; http_uri; content:"User-Agent|3a| Mozilla/4.0|0d 0a|"; fast_pattern; nocase; http_header; content:!"/CallParrotWebClient/"; http_uri; content:!"Host|3a| www|2e|google|2e|com|0d 0a|"; nocase; http_header; content:!"Cookie|3a| PREF|3d|ID|3d|"; nocase; http_raw_header; content:!"Host|3a 20|secure|2e|logmein|2e|com|0d 0a|"; nocase; http_header; content:!"Host|3a 20|weixin.qq.com"; http_header; nocase; content:!"Host|3a| slickdeals.net"; nocase; http_header; content:!"Host|3a| cloudera.com"; nocase; http_header; content:!"Host|3a 20|secure.digitalalchemy.net.au"; http_header; content:!".ksmobile.com|0d 0a|"; http_header; content:!"gstatic|2e|com|0d 0a|"; http_header; content:!"weixin.qq.com|0d 0a|"; http_header; content:!"|2e|cmcm|2e|com|0d 0a|"; http_header; content:!".deckedbuilder.com"; http_header; content:!".mobolize.com"; http_header; metadata: former_category INFO; reference:url,puhua.net/suricata_localrules#5200103; reference:url,doc.emergingthreats.net/2003492; classtype:trojan-activity; sid:5200103; rev:1;)
 
-### [5200104 Baofeng 暴风影音](suricata_localrules#5200104)   
+### [5200104 Baofeng 暴风影音](suricata_localrules#5200104)
+
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO Baofeng"; flow:to_server,established; priority:1; content:"GET"; http_method; content:"midinfo.baofeng.com"; http_header; content:"/conf/proxyd.xml"; http_uri; reference:url,puhua.net/suricata_localrules#5200104; classtype:policy-violation; sid:5200104; rev:1;)
 
-### [5200105 Duba 毒霸](suricata_localrules#5200105)   
+### [5200105 Duba 毒霸](suricata_localrules#5200105)
+
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO Duba"; flow:to_server,established; priority:1; content:"GET"; http_method; content:"config.i.duba.net"; http_header; content:"/health/healthcloud.ini"; http_uri; reference:url,puhua.net/suricata_localrules#5200105; classtype:policy-violation; sid:5200105; rev:1;)
 
-### [5200106 QQPCMgr 腾讯电脑管家](suricata_localrules#5200106)   
+### [5200106 QQPCMgr 腾讯电脑管家](suricata_localrules#5200106)
+
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO QQPCMgr(2)"; flow:to_server,established; priority:1; content:"GET"; http_method; content:".myapp.com"; http_header; content:"/qqpcmgr/other/"; http_uri; reference:url,puhua.net/suricata_localrules#5200106; classtype:policy-violation; sid:5200106; rev:1;)
 
-### [5200107 GDSBZS 办税助手](suricata_localrules#5200107)   
+### [5200107 GDSBZS 办税助手](suricata_localrules#5200107)
+
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO GDBSZS"; flow:to_server,established; priority:1; content:"GET"; http_method; content:"gdbszs.jchl.com"; http_host; content:"/gdbszs/"; http_uri; reference:url,puhua.net/suricata_localrules#5200107; classtype:policy-violation; sid:5200107; rev:1;)
 
-### [5200108 SERVYOU 税友软件](suricata_localrules#5200108)   
+### [5200108 SERVYOU 税友软件](suricata_localrules#5200108)
+
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO SERVYOU"; flow:to_server,established; priority:1; content:"Servyoubgup.exe"; http_user_agent; content:"HEAD"; http_method; content:".servyou.com.cn"; http_host; reference:url,puhua.net/suricata_localrules#5200108; classtype:policy-violation; sid:5200108; rev:1;)
 
-### [5200109 DriverGenius 驱动精灵](suricata_localrules#5200109)   
-alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO DriverGenius"; flow:to_server,established; priority:1; content:"GET"; http_method; content:"software.drivergenius.com"; http_host; reference:url,puhua.net/suricata_localrules#5200109; classtype:policy-violation; sid:5200109; rev:1;)
+### [5200109 DriverGenius 驱动精灵](suricata_localrules#5200109)
 
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HFF INFO DriverGenius"; flow:to_server,established; priority:1; content:"GET"; http_method; content:"software.drivergenius.com"; http_host; reference:url,puhua.net/suricata_localrules#5200109; classtype:policy-violation; sid:5200109; rev:1;)
