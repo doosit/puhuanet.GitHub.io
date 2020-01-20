@@ -1,0 +1,16 @@
+# itop角色描述汉化
+```
+update priv_urp_profiles set description = "Administrator 超级管理员-具有最高权限，能绕过任何控制"where id = 1
+update priv_urp_profiles set description = "Change Approver 变更审批者-可能受到某些变更影响的人"where id = 9
+update priv_urp_profiles set description = "Change Implementor 变更实施者-执行变更"where id = 7
+update priv_urp_profiles set description = "Change Supervisor 变更主管-负责整体变更执行"where id = 8
+update priv_urp_profiles set description = "Configuration Manager 配置管理者-配置项的文档的负责人"where id = 3
+update priv_urp_profiles set description = "Document author 文档作者-任何可以为文档做出贡献的人"where id = 11
+update priv_urp_profiles set description = "Portal power user 门户网站高级用户-有权查看门户网站中客户的所有工单。必须与其他个人资料（例如门户网站用户）结合使用。"where id = 12
+update priv_urp_profiles set description = "Portal user门户用户-有权访问用户门户网站。具有此配置文件的人员将不允许访问标准应用程序，他们将自动重定向到用户门户。"where id = 2
+update priv_urp_profiles set description = "Problem Manager 问题管理者-分析和解决问题的人"where id = 6
+update priv_urp_profiles set description = "REST Services User REST服务用户-被允许使用REST Web服务的用户"where id = 1024
+update priv_urp_profiles set description = "Service Desk Agent 服务台人员-负责事件工单创建和更新的人"where id = 4
+update priv_urp_profiles set description = "Service Manager 服务管理者-给客户提供服务的负责人"where id = 10
+update priv_urp_profiles set description = "Support Agent 支持人员-分析和解决工单的人"where id = 5
+```
